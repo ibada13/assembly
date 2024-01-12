@@ -68,7 +68,7 @@ code segment
          inc si
          inc cl
          cmp cl,fin
-            jb somme
+            jl somme
                         
   mov ah,02h
     mov dl,0ah
