@@ -1,8 +1,7 @@
 data segment 
     val db 4
     power db 3
-    msgp db "the number is even$"
-    msgi db "the number is odd$"
+
 ends
 
 
