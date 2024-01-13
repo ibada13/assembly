@@ -1,6 +1,6 @@
              data segment 
-    fin db 4 
-tab db fin dup(?)         
+    fin db 9 
+tab db 9 dup(?)        
 carry db ?
     sum db 0
     
@@ -43,25 +43,25 @@ code segment
   xor si,si
   xor cl,cl
  ; jmp calcmoyen
-  mov bl , tab[0]
-  mov max,bl
-  mov min,bl                          
+  mov dl , tab[0]
+  mov max,dl
+  mov min,dl                          
   somme:
-  mov bl,tab[si]
+  mov dl,tab[si]
   
-     add sum,bl                       
-                cmp bl,min
+     add sum,dl                       
+                cmp dl,min
                    jl updatemin  
-                cmp bl,max
+                cmp dl,max
                    jg updatemax         
                 jmp increment
                 
                 
   updatemin:
-         mov min,bl
+         mov min,dl
          
   updatemax:
-         mov max ,bl
+         mov max ,dl
          
          
   increment:
