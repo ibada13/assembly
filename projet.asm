@@ -21,7 +21,7 @@ code segment
        xor bx, bx        ; Clear BX register
       
        lea bx, t1        ; Load effective address of t1 into BX
-          
+          ;exo 1 + 2 
        loop1:  
          xor ax, ax      ; Clear AX register
          mov al, [bx]    ; Load byte at address in BX into AL
@@ -32,7 +32,7 @@ code segment
          cmp bl, en      ; Compare BL with the value in en
          jl loop1        ; Jump to loop1 if BL is less than en
 
-
+        ;exo 3
        xor ax, ax        ; Clear AX register
 
        xor bx, bx        ; Clear BX register
