@@ -1,10 +1,12 @@
- data segment
-    t1 db 16,32,64,128,255,4
-    t2 dw 16,32,64,128,255,2
-    prod db 4 
-    en db 6
+data segment
+    t1 db 16,32,64,128,255
+    t2 dw 16,32,64,128,255
+     
+    en db 5
     somt dw ?
     result dd ?
+    prod db 4 
+    spcp dw ? 
     buffer dw ?
 ends
 
@@ -13,71 +15,52 @@ ends
 code segment
     
      start:
-       mov ax,data
-       mov ds, ax
+       mov ax, data      ; Load data segment address into AX
+       mov ds, ax        ; Initialize DS with the data segment
        
-       
-       
-       
-       xor bx,bx
-       lea bx,t1
-       
+       xor bx, bx        ; Clear BX register
+      
+       lea bx, t1        ; Load effective address of t1 into BX
+          
        loop1:  
-      xor ax,ax
-      mov al,[bx]
-      mul prod
-      add somt ,ax 
-      mov t2[bx+bx],ax
+         xor ax, ax      ; Clear AX register
+         mov al, [bx]    ; Load byte at address in BX into AL
+         mul prod        ; Multiply AL by the value in prod
+         add somt, ax    ; Add the result to somt
+         mov t2[bx+bx], ax ; Store the result in t2 at offset bx+bx
+         inc bx          ; Increment BX
+         cmp bl, en      ; Compare BL with the value in en
+         jl loop1        ; Jump to loop1 if BL is less than en
+
+       xor si, si        ; Clear SI register
+       xor ax, ax        ; Clear AX register
+
+       xor bx, bx        ; Clear BX register
+       mov al, t1[bx]    ; Load byte at address in BX into AL
+       mov result, ax    ; Store the value in result
+
+       inc bl            ; Increment BL
        
-       
-       inc bx
-       cmp  bl,en
-       
-       jl loop1 
-    xor si,si    
-        xor ax,ax
-   ;   lea si,t2 
-      mov al , t1[si]
-      mov upperbuffer,ax
-      inc si
+       loop2:
+         mov ax, result   ; Load result into AX
+         mov cl, t1[bx]   ; Load byte at address in BX into CL
+         xor ch, ch       ; Clear CH register
+         mov spcp, cx     ; Store CX value in spcp
+         mul spcp         ; Multiply AX by spcp
+         mov result, ax   ; Store the result in result
 
-      xor cl,cl
-       inc cl 
-      loop2:
-      mov ax,upperbuffer
-      mov bl,t1[si]
-      xor bh,bh
-      mul bx
-      mov upperbuffer,ax
+         mov buffer, dx   ; Store the DX value in buffer
 
+         mov ax, result + 2  ; Load the upper word of result into AX
+         mul spcp            ; Multiply AX by spcp
+         add ax, buffer      ; Add buffer to AX
+         mov result + 2, ax  ; Store the result in the upper word of result
 
-      mov buffer,dx
+         inc bl             ; Increment BL
+         cmp bl, en         ; Compare BL with en
+         jl loop2           ; Jump to loop2 if BL is less than en
 
-      mov ax,lowerbuffer
-
-      mul bx
-
-      add ax,buffer 
-      mov lowerbuffer,ax     
-
-
-       
-       
-       
-       inc si  
-
-       inc cl
-       cmp cl,en
-       jl loop2
-      mov ax,upperbuffer
-      mov result,ax
-      mov ax , lowerbuffer
-      mov result+2 ,ax
-    
-      mov ah,4ch
-      int 21h
-
-    
-    
+      mov ah, 4ch           ; DOS function to terminate program
+      int 21h               ; Call DOS interrupt
 ends
-  end start 
+end start
