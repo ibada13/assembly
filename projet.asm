@@ -32,7 +32,7 @@ code segment
          cmp bl, en      ; Compare BL with the value in en
          jl loop1        ; Jump to loop1 if BL is less than en
 
-       xor si, si        ; Clear SI register
+
        xor ax, ax        ; Clear AX register
 
        xor bx, bx        ; Clear BX register
