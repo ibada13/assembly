@@ -42,19 +42,19 @@ code segment
        inc bl            ; Increment BL
        
        loop2:
-         mov ax, result   ; Load result into AX
+         mov ax, result   ; Load the upper word of result into AX
          mov cl, t1[bx]   ; Load byte at address in BX into CL
          xor ch, ch       ; Clear CH register
          mov spcp, cx     ; Store CX value in spcp
          mul spcp         ; Multiply AX by spcp
-         mov result, ax   ; Store the result in result
+         mov result, ax   ; Store the result in upper word of result
 
          mov buffer, dx   ; Store the DX value in buffer
 
-         mov ax, result + 2  ; Load the upper word of result into AX
+         mov ax, result + 2  ; Load the lower word of result into AX
          mul spcp            ; Multiply AX by spcp
          add ax, buffer      ; Add buffer to AX
-         mov result + 2, ax  ; Store the result in the upper word of result
+         mov result + 2, ax  ; Store the result in the lower word of result
 
          inc bl             ; Increment BL
          cmp bl, en         ; Compare BL with en
